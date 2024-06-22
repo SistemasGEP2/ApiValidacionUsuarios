@@ -39,6 +39,7 @@ namespace ApiValidacionUsuarios.Services
 
                         
                         var IdRol = fila["IdRol"].ToString();
+                        var IdUsuario = fila["IdUsuario"].ToString();
 
                         
                         DataTable tablaRol = await _accesoDatosSoapClient.TraerTablaAsync("Roles", 0);
@@ -48,7 +49,7 @@ namespace ApiValidacionUsuarios.Services
                         {
                             if (filaRol["IdRol"].ToString() == IdRol)
                             {
-                                
+
                                 DataTable tablaRolesApp = await _accesoDatosSoapClient.TraerTablaAsync("RolesAplicaciones", 0);
 
                                 foreach (DataRow filaTablaRol in tablaRolesApp.Rows)
@@ -65,11 +66,28 @@ namespace ApiValidacionUsuarios.Services
                                         listaRolApp.Add(diccRolesApp);
                                     }
                                 }
-                            }
-                        }
-
                         
+                            } 
+                        }
+                        DataTable tablaUsuaApps = await _accesoDatosSoapClient.TraerTablaAsync("Usuarios_Aplicaciones", 0);
+                        List<Dictionary<string, object>> listaUsuaApps = new List<Dictionary<string, object>>();
+
+                        foreach(DataRow filaTablaUsuaApps in tablaUsuaApps.Rows)
+                        {
+                            if (filaTablaUsuaApps["IdUsuario"].ToString() == IdUsuario)
+                            {
+                                var diccUsuaApps = new Dictionary<string,object>();
+
+                                foreach(DataColumn columnaUsuaApps in tablaUsuaApps.Columns)
+                                {
+                                    diccUsuaApps[columnaUsuaApps.ColumnName] = filaTablaUsuaApps[columnaUsuaApps];
+                                }
+
+                                listaUsuaApps.Add(diccUsuaApps);
+                            }
+                        }                    
                         diccionarioUsuario["RolesAplicaciones"] = listaRolApp;
+                        diccionarioUsuario["Usuario Aplicaciones"] = listaUsuaApps;
                     }
                 }
 

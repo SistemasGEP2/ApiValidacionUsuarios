@@ -41,7 +41,20 @@ namespace ApiValidacionUsuarios.Services
                         DataTable tablaUsuariosModulos = await _accesoDatosSoapClient.TraerTablaAsync("UsuariosModulos", 0);
                         List<Dictionary<string, object>> listaUsuariosModulos = new List<Dictionary<string, object>>();
 
-                        foreac
+                        foreach(DataRow filaModulos in tablaUsuariosModulos.Rows)
+                        {
+                            if (filaModulos["IdUsuario"].ToString() == IdUsuario)
+                            {
+                                var diccUsuarioModulos = new Dictionary<string, object>();
+                                foreach(DataColumn columnaUsuaModulos in tablaUsuariosModulos.Columns)
+                                {
+                                    diccUsuarioModulos[columnaUsuaModulos.ColumnName] = filaModulos[columnaUsuaModulos];
+                                }
+
+                                listaUsuariosModulos.Add(diccUsuarioModulos);                                
+                            }
+                        }
+                        diccionarioUsuario["ModulosUsuario"] = listaUsuariosModulos;
                     }
                 }
                 return listaUsuarios;

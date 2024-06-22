@@ -17,7 +17,7 @@ public class UsuariosController : ControllerBase
     }
 
 
-    [HttpGet(Name ="Obtener Rol Usuario")]
+    [HttpGet]
     public async Task<IActionResult> TraerUsuarios()
     {
         try
