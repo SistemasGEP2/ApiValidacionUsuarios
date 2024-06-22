@@ -1,0 +1,6 @@
+@ApiValidacionUsuarios_HostAddress = http://localhost:5266
+
+GET {{ApiValidacionUsuarios_HostAddress}}/apiusuarios/
+Accept: application/json
+
+###
